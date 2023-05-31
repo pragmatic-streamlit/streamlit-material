@@ -17,7 +17,7 @@ import {
   Column,
   FilterGroup,
   useSearchUIContext,
-} from "dp-mp-react-components";
+} from "@dp-launching/mp-react-components";
 
 // import IframeResizer from 'iframe-resizer-react'
 
