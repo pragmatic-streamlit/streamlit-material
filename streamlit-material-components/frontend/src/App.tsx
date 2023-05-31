@@ -5,18 +5,20 @@ import {
   withStreamlitConnection,
   ComponentProps,
 } from "streamlit-component-lib";
-// import { SearchUIContainer, SearchUIDataView, SearchUIGrid, SearchUISearchBar } from "./mp-react-components";
+import { SearchUIContainer, SearchUIDataView, SearchUIGrid, SearchUISearchBar, SearchUIViewType, PeriodicTableMode, Column, FilterGroup } from "dp-mp-react-components";
 
 // // import { SearchUIContainer, SearchUIDataView, SearchUIGrid, SearchUISearchBar } from "@materialsproject/mp-react-components/src";
 // // import { SearchUIContainer, SearchUIDataView, SearchUIGrid, SearchUISearchBar } from "@materialsproject/mp-react-components";
-// import { PeriodicTableMode } from "./mp-react-components/components/data-entry/MaterialsInput/MaterialsInput";
-// import { SearchUIViewType } from "./mp-react-components/components/data-display/SearchUI/types";
-// import { Column, FilterGroup } from "./mp-react-components/components/data-display/SearchUI/types";
+// import { PeriodicTableMode } from "dp-mp-react-components/components/data-entry/MaterialsInput/MaterialsInput";
+// import * as ding from "dp-mp-react-components/components/data-entry/MaterialsInput/";
+// import * as ding2 from "dp-mp-react-components/components/data-display/SearchUI/types";
+
+// import {  Column, FilterGroup } from "dp-mp-react-components/components/data-display/SearchUI/types";
 
 // import IframeResizer from 'iframe-resizer-react'
 
-// import columns from './columns.json';
-// import filterGroups from './filterGroups.json';
+import columns from './columns.json';
+import filterGroups from './filterGroups.json';
 
 
 
@@ -28,8 +30,7 @@ const MyCon: React.FC = () => {
 
   return (
     <div>
-        8888ddd
-        {/* <SearchUIContainer
+        <SearchUIContainer
           view={SearchUIViewType.TABLE}
           setProps={setState}
           resultLabel="material"
@@ -90,8 +91,8 @@ const MyCon: React.FC = () => {
               }
             ]}
           />
-          <SearchUIGrid />
-        </SearchUIContainer> */}
+          {/* <SearchUIGrid /> */}
+        </SearchUIContainer>
       </div>
   )
 }
