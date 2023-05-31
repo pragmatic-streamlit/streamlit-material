@@ -1,38 +1,57 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react";
 import {
   Streamlit,
   StreamlitComponentBase,
   withStreamlitConnection,
   ComponentProps,
 } from "streamlit-component-lib";
-import { SearchUIContainer, SearchUIDataView, SearchUIGrid, SearchUISearchBar, SearchUIViewType, PeriodicTableMode, Column, FilterGroup } from "dp-mp-react-components";
+import {
+  // useSearchUIContext,
 
-// // import { SearchUIContainer, SearchUIDataView, SearchUIGrid, SearchUISearchBar } from "@materialsproject/mp-react-components/src";
-// // import { SearchUIContainer, SearchUIDataView, SearchUIGrid, SearchUISearchBar } from "@materialsproject/mp-react-components";
-// import { PeriodicTableMode } from "dp-mp-react-components/components/data-entry/MaterialsInput/MaterialsInput";
-// import * as ding from "dp-mp-react-components/components/data-entry/MaterialsInput/";
-// import * as ding2 from "dp-mp-react-components/components/data-display/SearchUI/types";
-
-// import {  Column, FilterGroup } from "dp-mp-react-components/components/data-display/SearchUI/types";
+  SearchUIContainer,
+  SearchUIDataView,
+  SearchUIGrid,
+  SearchUISearchBar,
+  SearchUIViewType,
+  PeriodicTableMode,
+  Column,
+  FilterGroup,
+  useSearchUIContext,
+} from "dp-mp-react-components";
 
 // import IframeResizer from 'iframe-resizer-react'
 
 import columns from './columns.json';
 import filterGroups from './filterGroups.json';
 
+enum StreamlitEventType {
+  SEARCH_VALUE_CHANGE = "SEARCH_VALUE_CHANGE",
+}
 
+interface StreamlitEvent {
+  type: StreamlitEventType;
+  target: string;
+}
 
-const noticeStreamlit = (event: any) =>
+const noticeStreamlit = (event: StreamlitEvent) =>
   Streamlit.setComponentValue(event)
 
-const MyCon: React.FC = () => {
-  const [state, setState] = useState({ results: [] });
+const SearchEventTrigger: React.FC<{}> = () => {
+  const { state, query: _ } = useSearchUIContext();
+  useEffect(() => {
+    noticeStreamlit({ type: StreamlitEventType.SEARCH_VALUE_CHANGE, target: state.searchBarValue || '' });
+  }, [state.searchBarValue]);
 
+  return null
+}
+  
+
+const SearchBar: React.FC = () => {
   return (
     <div>
         <SearchUIContainer
           view={SearchUIViewType.TABLE}
-          setProps={setState}
+          // setProps={setState}
           resultLabel="material"
           columns={columns as Column[]}
           filterGroups={filterGroups as FilterGroup[]}
@@ -48,6 +67,7 @@ const MyCon: React.FC = () => {
           hasSortMenu={true}
           sortFields={['-energy_above_hull', 'formula_pretty']}
         >
+          <SearchEventTrigger />
           <SearchUISearchBar
             periodicTableMode={PeriodicTableMode.TOGGLE}
             placeholder="e.g. Li-Fe or Li,Fe or Li3Fe or mp-19017"
@@ -62,33 +82,10 @@ const MyCon: React.FC = () => {
             }}
             helpItems={[
               { label: 'Search Examples' },
-              {
-                label: 'Include at least elements',
-                examples: ['Li,Fe', 'Si,O,K']
-              },
-              {
-                label: 'Include only elements',
-                examples: ['Li-Fe', 'Si-O-K']
-              },
-              {
-                label: 'Include only elements plus wildcard elements',
-                examples: ['Li-Fe-*-*', 'Si-Fe-*-*-*']
-              },
-              {
-                label: 'Has exact formula',
-                examples: ['Li3Fe', 'Eu2SiCl2O3']
-              },
-              {
-                label: 'Has formula with wildcard atoms',
-                examples: ['LiFe*2*', 'Si*']
-              },
-              {
-                label: 'Has Material ID',
-                examples: ['mp-149', 'mp-19326']
-              },
-              {
-                label: 'Additional search options available in the filters panel.'
-              }
+              { label: 'Include at least elements', examples: ['Li,Fe', 'Si,O,K'] },
+              { label: 'Include only elements', examples: ['Li-Fe', 'Si-O-K'] },
+              { label: 'Has exact formula', examples: ['Li3Fe', 'Eu2SiCl2O3'] },
+              { label: 'Additional search options available in the filters panel.' }
             ]}
           />
           {/* <SearchUIGrid /> */}
@@ -108,7 +105,7 @@ class MaterialComponents extends StreamlitComponentBase<{}> {
   public render(): React.ReactNode {
     return (
       <div>
-        <MyCon />
+        <SearchBar />
       </div>
     )
   }
