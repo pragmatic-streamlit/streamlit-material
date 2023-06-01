@@ -2,7 +2,6 @@ import React from "react";
 import {
   SearchUIContainer,
   SearchUISearchBar,
-  SearchUIViewType,
   PeriodicTableMode,
   Column,
   FilterGroup,
@@ -20,81 +19,65 @@ export interface ISearchBarProps extends Partial<SearchUIContainerProps> {
   chemicalSystemSelectHelpText?: string;
   elementsSelectHelpText?: string;
   allowedInputTypesMap?: Partial<Record<MaterialsInputType, any>>;
-  helpItems?: {
-    label?: string | null;
-    examples?: string[] | null;
-  }[];
 }
 
 const SearchBar: React.FC<ISearchBarProps> = (props) => {
   const {
-    placeholder="e.g. Li-Fe or Li,Fe or Li3Fe or mp-19017",
-    errorMessage="Please enter a valid formula (e.g. CeZn5), list of elements (e.g. Ce, Zn or Ce-Zn), or Material ID (e.g. mp-394).",
-    chemicalSystemSelectHelpText="Select elements to search for materials with **only** these elements",
-    elementsSelectHelpText="Select elements to search for materials with **at least** these elements",
-    allowedInputTypesMap={
-      chemical_system: { field: 'chemsys' },
-      elements: { field: 'elements' },
-      formula: { field: 'formula' },
-      mpid: { field: 'material_ids' }
-    },
-    helpItems=[
-      { label: 'Search Examples' },
-      { label: 'Include at least elements', examples: ['Li,Fe', 'Si,O,K'] },
-      { label: 'Include only elements', examples: ['Li-Fe', 'Si-O-K'] },
-      { label: 'Has exact formula', examples: ['Li3Fe', 'Eu2SiCl2O3'] },
-      { label: 'Additional search options available in the filters panel.' }
-    ],
-    columns=[],
-    filterGroups=[
-      {
-        "name": "Composition",
-        "expanded": false,
-        "filters": [
-          {
-            "name": "Formula",
-            "params": ["formula"],
-            "isSearchBarField": true,
-          },
-          {
-            "name": "Chemical System",
-            "params": ["chemsys"],
-            "isSearchBarField": true,
-          },
-          {
-            "name": "Include Elements",
-            "params": ["elements"],
-            "isSearchBarField": true,
-          },
-        ]
-      },
-    ],
+    placeholder,
+    errorMessage,
+    chemicalSystemSelectHelpText,
+    elementsSelectHelpText,
+    allowedInputTypesMap,
+    columns,
+    filterGroups,
     ...rest
   } = props;
   return (
     <div>
         <SearchUIContainer
-          view={SearchUIViewType.TABLE}
-          // setProps={setState}
-          resultLabel="material"
-          columns={columns as Column[]}
-          filterGroups={filterGroups as FilterGroup[]}
+          columns={columns as Column[] || []}
+          filterGroups={filterGroups as FilterGroup[] || [
+            // 下边这几个是必传, 否则不会触发 context 数据流更新
+            {
+              "name": "Composition",
+              "expanded": false,
+              "filters": [
+                {
+                  "name": "Formula",
+                  "params": ["formula"],
+                  "isSearchBarField": true,
+                },
+                {
+                  "name": "Chemical System",
+                  "params": ["chemsys"],
+                  "isSearchBarField": true,
+                },
+                {
+                  "name": "Include Elements",
+                  "params": ["elements"],
+                  "isSearchBarField": true,
+                },
+              ]
+            },
+          ]}
           apiEndpoint={''}
-          autocompleteFormulaUrl={undefined}
-          apiKey={undefined}
-          hasSortMenu={true}
-          sortFields={['-energy_above_hull', 'formula_pretty']}
           {...rest}
         >
           <SearchEventTrigger />
           <SearchUISearchBar
             periodicTableMode={PeriodicTableMode.TOGGLE}
-            placeholder={placeholder}
-            errorMessage={errorMessage}
-            chemicalSystemSelectHelpText={chemicalSystemSelectHelpText}
-            elementsSelectHelpText={elementsSelectHelpText}
-            allowedInputTypesMap={allowedInputTypesMap}
-            helpItems={helpItems}
+            placeholder={placeholder || "e.g. Li-Fe or Li,Fe or Li3Fe or mp-19017"}
+            errorMessage={errorMessage || "Please enter a valid formula (e.g. CeZn5), list of elements (e.g. Ce, Zn or Ce-Zn), or Material ID (e.g. mp-394)."}
+            chemicalSystemSelectHelpText={chemicalSystemSelectHelpText || "Select elements to search for materials with **only** these elements"}
+            elementsSelectHelpText={elementsSelectHelpText || "Select elements to search for materials with **at least** these elements"}
+            allowedInputTypesMap={allowedInputTypesMap || {
+              chemical_system: { field: 'chemsys' },
+              elements: { field: 'elements' },
+              formula: { field: 'formula' },
+              mpid: { field: 'material_ids' },
+              smiles: { field: 'smiles' } ,
+              text: { field: 'text' },
+            }}
           />
         </SearchUIContainer>
       </div>

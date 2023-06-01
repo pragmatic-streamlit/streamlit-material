@@ -1,5 +1,5 @@
 import os
-
+from typing import List
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -19,9 +19,12 @@ else:
     mc = components.declare_component("streamlit_material_components", path=build_dir)
 
 
-def streamlit_material_components(key: str, type: str):
-    return mc(key=key, type=type)
+def st_material_components(key: str, type: str, **kwargs):
+    return mc(key=key, type=type, **kwargs)
+
+def st_material_search_bar_components(key: str):
+    return st_material_components(key, "search-bar")
 
 if not _RELEASE:
-    result = streamlit_material_components("test", "search-bar")
+    result = st_material_components("test", "search-bar")
     st.write("This many: %s" % result)
