@@ -19,12 +19,9 @@ else:
     mc = components.declare_component("streamlit_material_components", path=build_dir)
 
 
-def streamlit_material_components():
-    return mc(key="test")
+def streamlit_material_components(key: str, type: str):
+    return mc(key=key, type=type)
 
-# Test code to play with the component while it's in development.
-# During development, we can run this just as we would any other Streamlit
-# app: `$ streamlit run radio_button/__init__.py`
 if not _RELEASE:
-    result = streamlit_material_components()
+    result = streamlit_material_components("test", "search-bar")
     st.write("This many: %s" % result)
