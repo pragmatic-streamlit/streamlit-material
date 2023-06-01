@@ -3,12 +3,9 @@ from typing import List
 import streamlit as st
 import streamlit.components.v1 as components
 
+_DEVELOP_MODE = os.getenv('DEVELOP_MODE') or os.getenv('FILE_BROWSER_DEVELOP_MODE')
 
-# Create a _RELEASE constant. We'll set this to False while we're developing
-# the component, and True when we're ready to package and distribute it.
-_RELEASE = False
-
-if not _RELEASE:
+if not _DEVELOP_MODE:
     mc = components.declare_component(
         "streamlit_material_components",
         url="http://localhost:3001",
