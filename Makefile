@@ -1,2 +1,2 @@
 build:
-	cd streamlit-material/frontend && npm run build
+	cd streamlit_material/frontend && npm run build

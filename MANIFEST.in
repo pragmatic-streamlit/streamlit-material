@@ -1,1 +1,1 @@
-recursive-include streamlit-material/frontend/build *
+recursive-include streamlit_material/frontend/dist *
