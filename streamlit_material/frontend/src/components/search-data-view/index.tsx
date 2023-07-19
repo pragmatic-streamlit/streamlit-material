@@ -7,23 +7,9 @@ import {
   SearchUIDataView,
 } from "@dp-launching/mp-react-components";
 
-// import SearchEventTrigger from "../event-trigger";
-
 export interface ISearchDataViewProps extends Partial<SearchUIContainerProps> {
   columns: SearchUIContainerProps['columns'];
-  // filterGroups?: SearchUIContainerProps['filterGroups'];
 }
-
-// const Event: React.FC<any> = () => {
-
-//   const aa = useSearchUIContextActions();
-//   console.log("这里的值是: ", aa);
-
-
-//   return (
-//     <div>ddddd</div>
-//   )
-// }
 
 const SearchDataView: React.FC<ISearchDataViewProps> = (props) => {
   const { columns, filterGroups, ...rest } = props;
@@ -59,7 +45,6 @@ const SearchDataView: React.FC<ISearchDataViewProps> = (props) => {
         {...rest}
       >
         <div className="mpc-search-ui-right column">
-          {/* <SearchUIDataHeader /> */}
           <SearchUIDataView />
         </div>
       </SearchUIContainer>

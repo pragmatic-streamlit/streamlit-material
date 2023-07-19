@@ -62,4 +62,4 @@ class MaterialComponentsWrapper extends StreamlitComponentBase<IState> {
   }
 }
 
-export default withStreamlitConnection(MaterialComponentsWrapper);
+export default withStreamlitConnection(MaterialComponentsWrapper) as any;
